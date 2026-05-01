@@ -2,6 +2,7 @@ package com.example.demo.Entity;
 
 @Entity
 @Table(name = "huespedes")
+@Data
 public class Huesped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,3 +17,4 @@ public class Huesped {
     @Column(length = 100)
     private String email;
 }
+
