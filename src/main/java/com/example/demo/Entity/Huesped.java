@@ -1,7 +1,10 @@
 package com.example.demo.Entity;
 
+@Entity
+@Table(name = "huespedes")
+@Data
 public class Huesped {
-  @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -15,4 +18,3 @@ public class Huesped {
     private String email;
 }
 
-}
