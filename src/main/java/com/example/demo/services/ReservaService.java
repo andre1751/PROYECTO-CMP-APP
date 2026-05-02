@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.BookingDto;
-import com.example.demo.entity.Habitacion;
-import com.example.demo.entity.Huesped;
-import com.example.demo.entity.Reserva;
+import com.example.demo.Dto.BookingDto;
+import com.example.demo.Entity.Habitacion;
+import com.example.demo.Entity.Huesped;
+import com.example.demo.Entity.Reserva;
 import com.example.demo.repository.ReservaRepo;
 
 @Service

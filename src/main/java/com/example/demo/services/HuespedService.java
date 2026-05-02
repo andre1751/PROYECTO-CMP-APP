@@ -3,7 +3,7 @@ package com.example.demo.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.Huesped;
+import com.example.demo.Entity.Huesped;
 import com.example.demo.repository.HuespedRepo;
 
 import lombok.Data;

@@ -1,10 +1,12 @@
 package com.example.demo.services;
 
-import com.example.demo.entity.Habitacion;
-import com.example.demo.repository.HabitacionRepo;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
+import com.example.demo.Entity.Habitacion;
+import com.example.demo.repository.HabitacionRepo;
 
 
 @Service

@@ -16,13 +16,13 @@ import com.example.demo.Entity.Reserva;
 @RestController
 @RequestMapping("api/todo")
 public class HotelBookController {
-    //TO-DO: todas las reservas
+    //TODO: todas las reservas
 
-    //TO-DO: buscar reserva
+    //TODO: buscar reserva
 
-    //TO-DO: cancelar reserva
+    //TODO: cancelar reserva
 
-    //TO-DO: Actualizar estado reserva
+    //TODO: Actualizar estado reserva
 
-    //TO-DO: crear nueva reserva
+    //TODO: crear nueva reserva
 }

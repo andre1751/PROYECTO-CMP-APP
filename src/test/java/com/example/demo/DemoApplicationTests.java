@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.example.demo.dto.BookingDto;
-import com.example.demo.entity.Reserva;
+import com.example.demo.Dto.BookingDto;
+import com.example.demo.Entity.Reserva;
 import com.example.demo.services.ReservaService;
 @SpringBootTest
 class DemoApplicationTests {

@@ -1,7 +1,7 @@
 package com.example.demo.Dto;
 import java.time.LocalDate;
 
-import com.example.demo.entity.Reserva;
+import com.example.demo.Entity.Reserva;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
