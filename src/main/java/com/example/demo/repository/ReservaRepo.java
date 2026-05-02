@@ -10,5 +10,5 @@ import com.example.demo.entity.Reserva;
 @Repository
 public interface ReservaRepo extends JpaRepository<Reserva, Integer> {
     List<Reserva> findByHuespedId(Integer huespedId);
-    List<Reserva> findByEstadoReserva(String estadoReserva);
+    List<Reserva> findByEstadoReserva(String estado);
 }
