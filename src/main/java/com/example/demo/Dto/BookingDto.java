@@ -6,8 +6,9 @@ import com.example.demo.Entity.Reserva;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
  
+//TODO: eliminar estructura record, getters y setters de cada cosa
 public class BookingDto {
-    public record BookingResume(
+    public record BookingSummary(
     String DocumentID,
     String guestName,
     String roomNumber,
@@ -19,8 +20,9 @@ public class BookingDto {
     String bookingState
    ) {}
 
-  public BookingResume mapear(Reserva reserva) {
-        return new BookingResume(
+
+    public BookingSummary mapear(Reserva reserva) {
+        return new BookingSummary(
             reserva.getHuesped().getDocumentoId(),    
             reserva.getHuesped().getNombre(),         
             reserva.getHabitacion().getNumero(),     

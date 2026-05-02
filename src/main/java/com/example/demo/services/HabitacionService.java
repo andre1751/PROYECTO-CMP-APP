@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.Entity.Habitacion;
 import com.example.demo.repository.HabitacionRepo;
 
-
+//TODO: hacer singleton
 @Service
 public class HabitacionService {
 
@@ -18,13 +18,14 @@ public class HabitacionService {
     public List<Habitacion> obtenerTodas() {
         return habitacionRepository.findAll();
     }
-    public Habitacion buscarPorNumero(String numero) {
-        return habitacionRepository.findByNumero(numero)
-                .orElseThrow(() -> new RuntimeException("La habitación " + numero + " no existe."));
+
+    public Habitacion buscarPorNumeroHabitacion(String numHabitacion) {
+        return habitacionRepository.findByNumero(numHabitacion)
+                .orElseThrow(() -> new RuntimeException("La habitación " + numHabitacion + " no existe."));
     }
 
     public Habitacion actualizarEstado(String numero, String nuevoEstado) {
-        Habitacion hab = buscarPorNumero(numero);
+        Habitacion hab = buscarPorNumeroHabitacion(numero);
         hab.setEstado(nuevoEstado);
         return habitacionRepository.save(hab);
     }

@@ -15,9 +15,10 @@ public class HuespedService {
     @Autowired
     private HuespedRepo huespedRepository;
 
+    //TODO: documentar (comentar) esta función (o eliminar)
     public Huesped obtenerORequerir(String documentoId) {
         return huespedRepository.findByDocumentoId(documentoId)
-                .orElseThrow(() -> new RuntimeException("Huésped con documento " + documentoId + " no encontrado."));
+            .orElseThrow(() -> new RuntimeException("Huésped con documento " + documentoId + " no encontrado."));
     }
 
     public Huesped registrar(Huesped huesped) {

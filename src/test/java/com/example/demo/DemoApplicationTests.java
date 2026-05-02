@@ -32,7 +32,7 @@ void verificarCreacionDeReserva() {
     tempReserva.setEstadoReserva("Activa");
 
     // 2. Ejecutar la lógica del servicio
-    BookingDto.BookingResume resultado = reservaService.crearNuevaReserva(dniHuesped, numHabitacion, tempReserva);
+    BookingDto.BookingSummary resultado = reservaService.crearNuevaReserva(dniHuesped, numHabitacion, tempReserva);
 
     // 3. Verificaciones (Assertions)
     assertNotNull(resultado);

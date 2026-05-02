@@ -14,6 +14,7 @@ import com.example.demo.repository.ReservaRepo;
 
 @Service
 
+//TODO: hacer Singleton
 public class ReservaService {
     @Autowired
     private ReservaRepo reservaRepository;
@@ -26,7 +27,7 @@ public class ReservaService {
 
     private final BookingDto mapper = new BookingDto();
 
-    public List<BookingDto.BookingResume> obtenerResumenReservas() {
+    public List<BookingDto.BookingSummary> obtenerResumenReservas() {
         return reservaRepository.findAll()
                 .stream()
                 .map(mapper::mapear)
@@ -36,13 +37,13 @@ public class ReservaService {
     // ... (tus otros métodos se mantienen igual)
 
     // 1. READ (Individual) - Crucial para ver detalles
-    public BookingDto.BookingResume obtenerPorId(Integer id) {
+    public BookingDto.BookingSummary obtenerPorId(Integer id) {
         return reservaRepository.findById(id)
                 .map(mapper::mapear)
                 .orElseThrow(() -> new RuntimeException("Reserva no encontrada con ID: " + id));
     }
 
-    public BookingDto.BookingResume actualizarFechas(Integer id, java.time.LocalDate inicio, java.time.LocalDate fin) {
+    public BookingDto.BookingSummary actualizarFechas(Integer id, java.time.LocalDate inicio, java.time.LocalDate fin) {
         Reserva reserva = reservaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No existe la reserva para actualizar fechas."));
         if (fin.isBefore(inicio)) {
@@ -58,7 +59,7 @@ public class ReservaService {
         liberarHabitacionDeReserva(id);
     }
 
-    public BookingDto.BookingResume actualizarEstadoReserva(Integer reservaId, String nuevoEstado) {
+    public BookingDto.BookingSummary actualizarEstadoReserva(Integer reservaId, String nuevoEstado) {
         Reserva reserva = reservaRepository.findById(reservaId)
                 .orElseThrow(() -> new RuntimeException("Reserva no encontrada con ID: " + reservaId));
         reserva.setEstadoReserva(nuevoEstado);
@@ -73,9 +74,11 @@ public class ReservaService {
         habitacionService.actualizarEstado(numHab, "Disponible"); //
     }
 
-    public BookingDto.BookingResume crearNuevaReserva(String dni, String numHab, Reserva datosReserva) {
-        Huesped cliente = huespedService.obtenerORequerir(dni);
-        Habitacion cuarto = habitacionService.buscarPorNumero(numHab);
+
+
+    public BookingDto.BookingSummary crearNuevaReserva(String cedula, String numHabitacion, Reserva datosReserva) {
+        Huesped cliente = huespedService.obtenerORequerir(cedula);
+        Habitacion cuarto = habitacionService.buscarPorNumeroHabitacion(numHabitacion);
         
         // Validación de disponibilidad
         if (!"Disponible".equalsIgnoreCase(cuarto.getEstado())) {
@@ -87,8 +90,13 @@ public class ReservaService {
 
         Reserva guardada = reservaRepository.save(datosReserva);
         
-        habitacionService.actualizarEstado(numHab, "Ocupada");
+        habitacionService.actualizarEstado(numHabitacion, "Ocupada");
         
         return mapper.mapear(guardada);
+    }
+
+    //TODO: implementar este metodo
+    public BookingDto crearNuevaReserva(BookingDto dto) {
+        return null;
     }
 }
