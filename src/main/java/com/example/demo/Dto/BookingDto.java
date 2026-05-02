@@ -1,9 +1,10 @@
 package com.example.demo.dto;
-import java.util.Date;
+import java.time.LocalDate;
+
+import com.example.demo.entity.Reserva;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import java.time.LocalDate;
-import com.example.demo.entity.Reserva;
  
 public class BookingDto {
     public record BookingResume(

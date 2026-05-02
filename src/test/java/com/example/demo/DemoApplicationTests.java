@@ -1,4 +1,5 @@
 
+package com.example.demo;
 
 import java.time.LocalDate;
 
@@ -12,7 +13,7 @@ import com.example.demo.dto.BookingDto;
 import com.example.demo.entity.Reserva;
 import com.example.demo.services.ReservaService;
 @SpringBootTest
-class ReservaServiceTest {
+class DemoApplicationTests {
 
     @Autowired
     private ReservaService reservaService;
