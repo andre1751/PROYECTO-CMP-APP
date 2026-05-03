@@ -1,35 +1,25 @@
 package com.example.demo.Dto;
-import java.time.LocalDate;
+public  class BookingDto {
+    public static class BookingRequest {
+    private String documentID;
+    private String roomNumber;
+    private String guestName; 
+    private java.time.LocalDate enterDate;
+    private java.time.LocalDate exitDate;
+    private String bookingState; 
 
-import com.example.demo.Entity.Reserva;
-
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
- 
-//TODO: eliminar estructura record, getters y setters de cada cosa
-public class BookingDto {
-    public record BookingSummary(
-    String DocumentID,
-    String guestName,
-    String roomNumber,
-    LocalDate enterDate, 
-    LocalDate exitDate,
-    @NotBlank(message = "El estado no puede estar vacío")
-    @Pattern(regexp = "Activa|Cancelada|Finalizada", 
-             message = "El estado debe ser: Activa, Cancelada o Finalizada")
-    String bookingState
-   ) {}
-
-
-    public BookingSummary mapear(Reserva reserva) {
-        return new BookingSummary(
-            reserva.getHuesped().getDocumentoId(),    
-            reserva.getHuesped().getNombre(),         
-            reserva.getHabitacion().getNumero(),     
-            reserva.getFechaEntrada(),                
-            reserva.getFechaSalida(),                
-            reserva.getEstadoReserva()                
-        );
-    }
+    public String getID() { return documentID; }
+    public void setID(String documentID) { this.documentID = documentID; }
+    public String getNumHab() { return roomNumber; }
+    public void setNumHab(String roomNumber) { this.roomNumber = roomNumber; }
+    public String getName(){return guestName;}
+    public void setName(String guestName){this.guestName=guestName; }
+    public java.time.LocalDate getFechaEntrada() { return enterDate; }
+    public void setFechaEntrada(java.time.LocalDate enterDate) { this.enterDate = enterDate; }
+    public java.time.LocalDate getFechaSalida() { return exitDate; }
+    public void setFechaSalida(java.time.LocalDate exitDate) { this.exitDate = exitDate; }
+    public String getbookingState(){ return bookingState; }
+    public void setbookingState(String bookingState){this.bookingState=bookingState;}
+}
 
 }
