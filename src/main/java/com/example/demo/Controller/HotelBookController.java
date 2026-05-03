@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Dto.BookingDto;
+import com.example.demo.Dto.BookingDto.BookingRequest;
 import com.example.demo.Entity.Habitacion;
 import com.example.demo.services.HabitacionService;
 import com.example.demo.services.ReservaService;
@@ -49,13 +50,14 @@ public class HotelBookController {
 
     //TODO: Actualizar estado reserva
     @GetMapping("/actualizarReserva/{id}")
-    public void actualizarReserva(@PathVariable Integer Id, BookingDto nuevaReserva) {
-        //función que acceda a la reserva y actualize (no tenemos en la repo)
+    public void actualizarReserva(@PathVariable Integer Id, BookingRequest nuevaReserva) {
+        reservas.cancelarReserva(Id);
+        reservas.crearNuevaReserva(nuevaReserva);
     }
 
     //TODO: crear nueva reserva
     @PostMapping("/nueva_reserva")
-    public void nuevaReserva(@RequestBody BookingDto nuevaReserva) {
+    public void nuevaReserva(@RequestBody BookingRequest nuevaReserva) {
         // nuevaReserva
         reservas.crearNuevaReserva(nuevaReserva);
     }
