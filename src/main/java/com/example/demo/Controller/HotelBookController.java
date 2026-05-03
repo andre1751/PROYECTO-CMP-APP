@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.Dto.BookingDto;
 import com.example.demo.Dto.BookingDto.BookingRequest;
 import com.example.demo.Entity.Habitacion;
+import com.example.demo.Entity.Reserva;
 import com.example.demo.services.HabitacionService;
 import com.example.demo.services.ReservaService;
 
@@ -26,13 +27,13 @@ public class HotelBookController {
 
     //TODO: todas las reservas
     @GetMapping("/reservas")
-    public List<BookingDto.BookingSummary> reservas() {
+    public List<Reserva> reservas() {
         return reservas.obtenerResumenReservas();
     }
 
     //TODO: buscar reserva
      @GetMapping("/buscarReserva/{id}")
-    public BookingDto.BookingSummary buscarReserva(@PathVariable Integer Id) {
+    public Reserva buscarReserva(@PathVariable Integer Id) {
 
         return reservas.obtenerPorId(Id);
     }
