@@ -28,7 +28,7 @@ public class HotelBookController {
     //TODO: todas las reservas
     @GetMapping("/reservas")
     public List<Reserva> reservas() {
-        return reservas.obtenerResumenReservas();
+        return reservas.obtenerTodas();
     }
 
     //TODO: buscar reserva
@@ -50,9 +50,9 @@ public class HotelBookController {
     }
 
     //TODO: Actualizar estado reserva
-    @GetMapping("/actualizarReserva/{id}")
-    public void actualizarReserva(@PathVariable Integer Id, BookingRequest nuevaReserva) {
-        reservas.cancelarReserva(Id);
+    @PostMapping("/actualizarReserva/{id}")
+    public void actualizarReserva(@RequestBody BookingRequest nuevaReserva) {
+        reservas.cancelarReserva(Integer.parseInt(nuevaReserva.getID()));
         reservas.crearNuevaReserva(nuevaReserva);
     }
 
