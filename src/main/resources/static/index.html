@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Book - Reserva de Habitaciones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Toast notification ── */
+    #toast-container {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .toast {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px 20px;
+      min-width: 320px;
+      max-width: 420px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+      border-left: 4px solid transparent;
+      pointer-events: all;
+      animation: toastIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      position: relative;
+    }
+
+    .toast.removing {
+      animation: toastOut 0.28s ease-in forwards;
+    }
+
+    .toast.success { border-left-color: #22c55e; }
+    .toast.error   { border-left-color: #ef4444; }
+    .toast.warning { border-left-color: #f59e0b; }
+    .toast.info    { border-left-color: #3b82f6; }
+
+    .toast-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .toast-body { flex: 1; }
+
+    .toast-title {
+      font-weight: 600;
+      font-size: 0.92rem;
+      margin-bottom: 2px;
+      color: #111;
+    }
+
+    .toast-msg {
+      font-size: 0.88rem;
+      color: #555;
+      line-height: 1.45;
+    }
+
+    .toast-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #aaa;
+      font-size: 1.1rem;
+      padding: 0;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+    .toast-close:hover { color: #555; }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateX(40px) scale(0.96); }
+      to   { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateX(0); max-height: 200px; margin-bottom: 0; }
+      to   { opacity: 0; transform: translateX(40px); max-height: 0; padding: 0; margin: 0; }
+    }
+
+    /* ── Modal overlay ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 20, 50, 0.55);
+      backdrop-filter: blur(4px);
+      z-index: 8000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: #fff;
+      border-radius: 24px;
+      padding: 36px 32px 28px;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+      animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.92) translateY(16px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal h3 {
+      margin: 0 0 6px;
+      font-size: 1.35rem;
+      color: #111;
+    }
+
+    .modal .modal-sub {
+      color: #777;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .modal label {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .modal select, .modal input {
+      border: 1.5px solid #dce1e8;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 1rem;
+      background: #fafbff;
+      transition: border-color 0.2s;
+    }
+    .modal select:focus, .modal input:focus {
+      outline: none;
+      border-color: #1f3a93;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+
+    .btn-secondary {
+      background: none;
+      border: 1.5px solid #dce1e8;
+      color: #555;
+      padding: 11px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-secondary:hover { background: #f4f5f9; border-color: #bbb; }
+
+    /* ── Error state for tables ── */
+    .table-error-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: #888;
+    }
+    .table-error-state .err-icon { font-size: 2.4rem; margin-bottom: 10px; }
+    .table-error-state p { margin: 0 0 16px; font-size: 0.95rem; }
+    .table-error-state button { font-size: 0.9rem; padding: 10px 18px; }
+
+    .table-empty-state {
+      text-align: center;
+      padding: 40px 24px;
+      color: #bbb;
+    }
+    .table-empty-state .empty-icon { font-size: 2rem; margin-bottom: 8px; }
+    .table-empty-state p { margin: 0; font-size: 0.92rem; }
+
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, #f0f2f7 25%, #e4e8f0 50%, #f0f2f7 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Badge estados */
+    .estado-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .estado-Disponible  { background: #e8f7ec; color: #1a6c3d; }
+    .estado-Ocupada     { background: #fff3e0; color: #b45309; }
+    .estado-Confirmada  { background: #e8f0fe; color: #1e3a8a; }
+    .estado-Activa      { background: #f0fdf4; color: #15803d; }
+    .estado-Finalizada  { background: #f3f4f6; color: #4b5563; }
+    .estado-Cancelada   { background: #fee8e8; color: #8c1f24; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Toast container ── -->
+  <div id="toast-container"></div>
+
+  <!-- ── Modal: actualizar estado de reserva ── -->
+  <div class="modal-overlay" id="modal-update">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <h3 id="modal-title">Actualizar reserva</h3>
+      <p class="modal-sub">Selecciona el nuevo estado para la reserva <strong id="modal-reserve-id"></strong>.</p>
+      <label>
+        Nuevo estado
+        <select id="modal-new-state">
+          <option value="Confirmada">Confirmada</option>
+          <option value="Activa">Activa</option>
+          <option value="Ocupada">Ocupada</option>
+          <option value="Finalizada">Finalizada</option>
+          <option value="Cancelada">Cancelada</option>
+        </select>
+      </label>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeUpdateModal()">Cancelar</button>
+        <button class="primary-button" onclick="confirmUpdate()">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Modal: confirmar cancelación ── -->
+  <div class="modal-overlay" id="modal-cancel">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-cancel-title">
+      <h3 id="modal-cancel-title">⚠️ Cancelar reserva</h3>
+      <p class="modal-sub">¿Estás seguro de que deseas cancelar la reserva <strong id="modal-cancel-id"></strong>? Esta acción liberará la habitación.</p>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeCancelModal()">No, volver</button>
+        <button class="primary-button" style="background:#dc2626" onclick="confirmCancel()">Sí, cancelar reserva</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">HotelBook</div>
+    <div class="nav-actions">
+      <a href="#reservas">Reservas</a>
+      <a href="#habitaciones">Habitaciones</a>
+      <a href="#nueva-reserva">Nueva Reserva</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Tu próxima estadía comienza aquí</p>
+        <h1>Administra reservas y habitaciones desde una sola pantalla</h1>
+        <p>Utiliza la aplicación para crear reservas, buscar y cancelar reservaciones, y ver el estado actual de las habitaciones.</p>
+      </div>
+      <div class="hero-image">
+        <img src="/hotel.jpg" alt="Hotel" />
+      </div>
+    </section>
+
+    <section class="panel" id="nueva-reserva">
+      <div class="panel-header">
+        <h2>Crear nueva reserva</h2>
+        <button type="button" onclick="loadRooms()">Actualizar habitaciones</button>
+      </div>
+
+      <form id="create-reservation-form" class="form-grid" novalidate>
+        <label>
+          Nombre del huésped
+          <input type="text" id="guestName" placeholder="Ej: Laura Pérez" required />
+        </label>
+        <label>
+          Documento ID
+          <input type="text" id="documentID" placeholder="Ej: 12345678" required />
+        </label>
+        <label>
+          Número de habitación
+          <input type="text" id="roomNumber" placeholder="Ej: 101" required />
+        </label>
+        <label>
+          Fecha de entrada
+          <input type="date" id="enterDate" required />
+        </label>
+        <label>
+          Fecha de salida
+          <input type="date" id="exitDate" required />
+        </label>
+        <label>
+          Estado reserva
+          <select id="bookingState">
+            <option value="Confirmada">Confirmada</option>
+            <option value="Activa">Activa</option>
+            <option value="Ocupada">Ocupada</option>
+            <option value="Finalizada">Finalizada</option>
+            <option value="Cancelada">Cancelada</option>
+          </select>
+        </label>
+        <button type="submit" class="primary-button">Crear reserva</button>
+      </form>
+    </section>
+
+    <section class="panel" id="habitaciones">
+      <div class="panel-header">
+        <h2>Habitaciones</h2>
+        <button type="button" onclick="loadRooms()">Actualizar</button>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Número</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="rooms-table"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="reservas">
+      <div class="panel-header">
+        <h2>Reservas</h2>
+        <button type="button" onclick="loadReservations()">Actualizar</button>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Huésped</th>
+              <th>Documento</th>
+              <th>Habitación</th>
+              <th>Entrada</th>
+              <th>Salida</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="reservations-table"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

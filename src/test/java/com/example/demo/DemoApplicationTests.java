@@ -36,11 +36,11 @@ void verificarCreacionDeReserva() {
 
     // 3. Verificaciones (Assertions)
     assertNotNull(resultado);
-    assertEquals(dniHuesped, resultado.DocumentID());
+    assertEquals(Integer.valueOf(dniHuesped), resultado.getDocumentID());
     
     // Verificamos que las fechas se procesaron correctamente en el resultado
-    assertNotNull(resultado.enterDate()); 
-    assertEquals("Ocupada", resultado.bookingState()); 
+    assertNotNull(resultado.getEnterDate());
+    assertEquals("Ocupada", resultado.getBookingState());
     
     System.out.println("¡Prueba exitosa con fechas incluidas!");
 }
