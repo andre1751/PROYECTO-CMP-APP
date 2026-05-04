@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class BookingDto {
 
-    private String documentID;
+    private Integer documentID;
     private String roomNumber;
     private String guestName; 
     private LocalDate enterDate;
@@ -15,7 +15,7 @@ public class BookingDto {
 
     //===Clase interna: Builder===//
     public static class Builder {
-        private String documentID;
+        private Integer documentID;
         private String roomNumber;
         private String guestName; 
         private LocalDate enterDate;
@@ -24,7 +24,7 @@ public class BookingDto {
         
         public Builder() {}
 
-        public Builder documentID(String documentID) {
+        public Builder documentID(Integer documentID) {
             this.documentID = documentID;
             return this;
         }
@@ -71,7 +71,7 @@ public class BookingDto {
 
     //getters
 
-    public String getDocumentID() {
+    public Integer getDocumentID() {
         return documentID;
     }
 
@@ -97,7 +97,7 @@ public class BookingDto {
 
     //setters
 
-    public void setID(String documentID) {
+    public void setID(Integer documentID) {
         this.documentID = documentID;
     }
 

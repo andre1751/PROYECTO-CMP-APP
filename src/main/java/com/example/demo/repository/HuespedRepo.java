@@ -10,5 +10,5 @@ import com.example.demo.entity.Huesped;
 @Repository
 public interface HuespedRepo extends JpaRepository<Huesped, Integer> {
     // Útil para buscar huéspedes por su documento de identidad
-    Optional<Huesped> findByDocumentoId(String documentoId);
+    Optional<Huesped> findByDocumentoId(Integer documentoId);
 }

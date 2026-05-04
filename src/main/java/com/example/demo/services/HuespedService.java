@@ -15,7 +15,7 @@ public class HuespedService {
     @Autowired
     private HuespedRepo huespedRepository;
 
-    public Huesped obtenerHuesped(String documentoId) {
+    public Huesped obtenerHuesped(Integer documentoId) {
         return huespedRepository.findByDocumentoId(documentoId)
                 .orElseThrow(() -> new RuntimeException("Huésped con documento " + documentoId + " no encontrado."));
     }

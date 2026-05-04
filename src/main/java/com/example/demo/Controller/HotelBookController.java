@@ -45,8 +45,7 @@ public class HotelBookController {
 
     @PostMapping("/actualizarReserva/{id}")
     public void actualizarReserva(@RequestBody BookingDto nuevaReserva) {
-        reservas.cancelarReserva(Integer.valueOf(nuevaReserva.getDocumentID())); // si vamos a hacer esto, por qué no
-                                                                                 // hacer que documentID sea Int?
+        reservas.cancelarReserva(nuevaReserva.getDocumentID()); 
         reservas.crearNuevaReserva(nuevaReserva);
     }
 

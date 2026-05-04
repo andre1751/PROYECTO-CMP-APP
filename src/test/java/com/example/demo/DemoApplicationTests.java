@@ -22,7 +22,7 @@ class DemoApplicationTests {
     @Test
     void verificarCreacionDeReserva() {
         // 1. Datos de prueba
-        String dniHuesped = "1234567890";
+        Integer dniHuesped = 1234567890;
         String numHabitacion = "101";
 
         BookingDto datosReserva = new BookingDto.Builder()
@@ -52,7 +52,7 @@ class DemoApplicationTests {
 
         // Ejemplo de como crear un BookingDto:
         BookingDto ejemplBookingDto = new BookingDto.Builder()
-                .documentID("100101021") // valores de ejemplo, pones los de verdad
+                .documentID(100101021) // valores de ejemplo, pones los de verdad
                 .bookingState("la wea esa")
                 .enterDate(null)
                 .exitDate(null)
