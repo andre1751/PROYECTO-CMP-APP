@@ -18,9 +18,6 @@ public class Huesped {
     private String nombre;
 
     @Column(name = "documento_id", length = 20, unique = true, nullable = false)
-    private String documentoId;
-
-    @Column(length = 100)
-    private String email;
+    private Integer documentoId;
 }
 
