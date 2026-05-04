@@ -1,18 +1,23 @@
-package com.example.demo.services;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.example.demo.entity.Huesped;
-import com.example.demo.repository.HuespedRepo;
-@Service
+package com.example.demo.Entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
+@Entity
+@Table(name = "huespedes")
+@Data
+public class Huesped {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-public class HuespedService {
-@Autowired
-    private HuespedRepo huespedRepository;
-    public Huesped obtenerHuesped(Integer documentoId) {
-        return huespedRepository.findByDocumentoId(documentoId)
-                .orElseThrow(() -> new RuntimeException("Huésped con documento " + documentoId + " no encontrado."));
-    }
-    public Huesped registrar(Huesped huesped) {
-        return huespedRepository.save(huesped);
+    @Column(length = 100, nullable = false)
+    private String nombre;
 
-    }
+   @Column(name = "documento_id", unique = true, nullable = false)
+    private Integer documentoId;
+}
+
