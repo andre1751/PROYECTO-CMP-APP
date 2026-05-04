@@ -17,7 +17,7 @@ public class Huesped {
     @Column(length = 100, nullable = false)
     private String nombre;
 
-    @Column(name = "documento_id", length = 20, unique = true, nullable = false)
+   @Column(name = "documento_id", unique = true, nullable = false)
     private Integer documentoId;
 }
 
