@@ -1,17 +1,17 @@
 package com.example.demo.services;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.demo.dto.BookingRequest; 
-import com.example.demo.entity.Reserva;
-import com.example.demo.entity.Huesped;
+
+import com.example.demo.dto.BookingDto;
 import com.example.demo.entity.Habitacion;
+import com.example.demo.entity.Huesped;
+import com.example.demo.entity.Reserva;
 import com.example.demo.repository.ReservaRepo;
 
 @Service
-
-import com.example.demo.dto.BookingDto.BookingRequest;
 public class ReservaService {
     private static ReservaService instance;
 
@@ -24,14 +24,16 @@ public class ReservaService {
     @Autowired
     private HabitacionService habitacionService;
 
-     private ReservaService() {
+    private ReservaService() {
     }
+
     public static ReservaService getInstance() {
         if (instance == null) {
             instance = new ReservaService();
         }
         return instance;
     }
+
     public List<Reserva> obtenerTodas() {
         return reservaRepository.findAll();
     }
@@ -43,7 +45,7 @@ public class ReservaService {
 
     public Reserva actualizarFechas(Integer id, java.time.LocalDate inicio, java.time.LocalDate fin) {
         Reserva reserva = obtenerPorId(id);
-        
+
         if (fin.isBefore(inicio)) {
             throw new RuntimeException("La fecha de salida no puede ser anterior a la de entrada.");
         }
@@ -70,7 +72,7 @@ public class ReservaService {
         habitacionService.actualizarEstado(numHab, "Disponible");
     }
 
-    public Reserva crearNuevaReserva(BookingRequest request) {
+    public Reserva crearNuevaReserva(BookingDto request) {
         Huesped cliente = huespedService.obtenerHuesped(request.getDocumentID());
         Habitacion cuarto = habitacionService.buscarPorNumero(request.getRoomNumber());
 
@@ -90,12 +92,13 @@ public class ReservaService {
 
         return guardada;
     }
-    //NOTE: Funcion de filtrar reserva por estado 
-    public List<Reserva> obtenerReservasPorEstado(String estado) {
-    if (estado == null || estado.trim().isEmpty()) {
-        throw new RuntimeException("El estado de búsqueda no puede estar vacío.");
-    }
-    return reservaRepository.findByEstadoReserva(estado);
-}
 
+    // NOTE: Funcion de filtrar reserva por estado
+    public List<Reserva> obtenerReservasPorEstado(String estado) {
+        if (estado == null || estado.trim().isEmpty()) {
+            throw new RuntimeException("El estado de búsqueda no puede estar vacío.");
+        }
+
+        return reservaRepository.findByEstadoReserva(estado);
+    }
 }

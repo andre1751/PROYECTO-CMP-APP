@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.Entity.Huesped;
+import com.example.demo.entity.Huesped;
 
 @Repository
 public interface HuespedRepo extends JpaRepository<Huesped, Integer> {

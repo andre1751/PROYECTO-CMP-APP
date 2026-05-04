@@ -9,30 +9,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.Dto.BookingDto;
-import com.example.demo.Dto.BookingDto.BookingRequest;
-import com.example.demo.Entity.Habitacion;
-import com.example.demo.Entity.Reserva;
+import com.example.demo.dto.BookingDto;
+import com.example.demo.entity.Habitacion;
+import com.example.demo.entity.Reserva;
 import com.example.demo.services.HabitacionService;
 import com.example.demo.services.ReservaService;
-
 
 @RestController
 @RequestMapping("/booking")
 public class HotelBookController {
-    
-    ReservaService reservas = new ReservaService();
-    HabitacionService habitacion = new HabitacionService();
 
+    ReservaService reservas = ReservaService.getInstance();
+    HabitacionService habitacion = HabitacionService.getInstance();
 
-    //TODO: todas las reservas
     @GetMapping("/reservas")
     public List<Reserva> reservas() {
         return reservas.obtenerTodas();
     }
 
-    //TODO: buscar reserva
-     @GetMapping("/buscarReserva/{id}")
+    @GetMapping("/buscarReserva/{id}")
     public Reserva buscarReserva(@PathVariable Integer Id) {
 
         return reservas.obtenerPorId(Id);
@@ -43,23 +38,20 @@ public class HotelBookController {
         return habitacion.obtenerTodas();
     }
 
-
     @GetMapping("/cancelarReserva/{id}")
     public void cancelarReserva(@PathVariable Integer Id) {
         reservas.cancelarReserva(Id);
     }
 
-    //TODO: Actualizar estado reserva
     @PostMapping("/actualizarReserva/{id}")
-    public void actualizarReserva(@RequestBody BookingRequest nuevaReserva) {
-        reservas.cancelarReserva(Integer.parseInt(nuevaReserva.getID()));
+    public void actualizarReserva(@RequestBody BookingDto nuevaReserva) {
+        reservas.cancelarReserva(Integer.valueOf(nuevaReserva.getDocumentID())); // si vamos a hacer esto, por qué no
+                                                                                 // hacer que documentID sea Int?
         reservas.crearNuevaReserva(nuevaReserva);
     }
 
-    //TODO: crear nueva reserva
     @PostMapping("/nueva_reserva")
-    public void nuevaReserva(@RequestBody BookingRequest nuevaReserva) {
-        // nuevaReserva
+    public void nuevaReserva(@RequestBody BookingDto nuevaReserva) {
         reservas.crearNuevaReserva(nuevaReserva);
     }
 }
