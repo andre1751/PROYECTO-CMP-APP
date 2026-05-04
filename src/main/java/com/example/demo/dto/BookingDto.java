@@ -3,7 +3,6 @@ package com.example.demo.dto;
 import java.time.LocalDate;
 
 public class BookingDto {
-
     private Integer documentID;
     private String roomNumber;
     private String guestName; 
@@ -70,7 +69,6 @@ public class BookingDto {
     }
 
     //getters
-
     public Integer getDocumentID() {
         return documentID;
     }
@@ -96,7 +94,6 @@ public class BookingDto {
     }
 
     //setters
-
     public void setID(Integer documentID) {
         this.documentID = documentID;
     }
