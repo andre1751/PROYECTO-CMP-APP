@@ -1,19 +1,15 @@
 package com.example.demo.services;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Huesped;
 import com.example.demo.repository.HuespedRepo;
-
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@Data
+@RequiredArgsConstructor
 public class HuespedService {
-
-    @Autowired
-    private HuespedRepo huespedRepository;
+    
+    private final HuespedRepo huespedRepository;
 
     public Huesped obtenerHuesped(Integer documentoId) {
         return huespedRepository.findByDocumentoId(documentoId)
